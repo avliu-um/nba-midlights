@@ -17,3 +17,4 @@ See [here](https://docs.google.com/document/d/1O63A0ZqUo_-5Kp7YrVpc6f_02PndsTvvw
 Included files:
 * scrape_plays.py- uses BeautifulSoup and Selenium to sample clips of plays from a given game on NBA.com
 * create_videos.py- uses ffmpeg to stitch videos automatically, and output to mp4
+* output.mp4- example Midlight video (Knicks vs. Cavaliers, 4/23/2023), generated automatically by the above scripts
