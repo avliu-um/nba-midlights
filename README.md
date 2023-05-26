@@ -10,11 +10,10 @@ Enter, NBA Midlights, a web-scraping and video-stiching project that creates mor
 
 Currently, we implement random sampling of clips from NBA.com and generate videos based on that. Our goal is to create videos that more accurately represent players. For instance, if a player shoots 30% from the field, then only 30% of their clips in the Midlights video will be makes. Similarly for Assist-Turnover ratio.
 
-This repo contains the code for NBA mid-lights.
+This repo contains the code for NBA mid-lights. See [here](https://docs.google.com/document/d/1O63A0ZqUo_-5Kp7YrVpc6f_02PndsTvvwCEJmmM7Ark/edit) for notes doc.
 
-See [here](https://docs.google.com/document/d/1O63A0ZqUo_-5Kp7YrVpc6f_02PndsTvvwCEJmmM7Ark/edit) for notes doc.
+See [here](https://drive.google.com/file/d/1lHONnpNAqYj44xjszP7DJzvCYiRcicfQ/view?usp=sharing) for example Midlight video (Knicks vs. Cavaliers, 4/23/2023), generated automatically by the below scripts.
 
 Included files:
 * scrape_plays.py- uses BeautifulSoup and Selenium to sample clips of plays from a given game on NBA.com
 * create_videos.py- uses ffmpeg to stitch videos automatically, and output to mp4
-* output.mp4- example Midlight video (Knicks vs. Cavaliers, 4/23/2023), generated automatically by the above scripts
