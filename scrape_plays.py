@@ -26,12 +26,10 @@ print(links)
 
 # sample 40 videos
 links = random.sample(links, 40)
+driver = get_selenium_driver()
 
 vids = []
 for link in links:
-
-
-    driver = get_selenium_driver()
 
     driver.get(link)
 
@@ -45,5 +43,8 @@ for link in links:
 
 print(vids)
 
+with open('./video_links.txt', 'w') as wf:
+    for vid in vids:
+        wf.write(vid+'\n')
 
 # Step 3: download mp4
