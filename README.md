@@ -12,7 +12,10 @@ Enter, NBA Midlights, a web-scraping and video-stiching project that creates mor
 
 ## Implementation
 
-This repo contains the code for NBA Midlights. See [here](https://drive.google.com/drive/folders/1T6EhLKyoYiK7uTHnVipAZrLA72qDXanN?usp=sharing) for example Midlight videos.
+This repo contains the code for NBA Midlights. 
+The code combines several web scraping tactics, parallelization, and video stitching tools.
+
+See [here](https://drive.google.com/drive/folders/1T6EhLKyoYiK7uTHnVipAZrLA72qDXanN?usp=sharing) for example Midlight videos.
 
 We use several web scraping tools to crawl NBA.com and find relevant clips, including BeautifulSoup and Selenium. 
 In the most general use case, our code accepts a date as input, and then generates Midlight videos for every game that occured on that date. 
@@ -33,6 +36,7 @@ Overall, parallelization has brought game processing tiem from over 30 minutes p
 Included files:
 * midlights.py- uses BeautifulSoup and Selenium to sample clips of play.
 * requirements.txt- Python packages.
+* multi.py, random.ipynb- personal scripts for testing different code functionality
 
 Requirements:
 * Python packages (see requirements.txt)
