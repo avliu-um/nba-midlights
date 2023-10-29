@@ -3,19 +3,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from scraper_util_avliu.util import get_soup, get_selenium_driver
 
-import datetime
-
-import random
-
-import re
-
 # For downloading and stitching videos
 import shutil
 import os
 import wget
 import subprocess
-
-import time
+import datetime
+import random
+import re
 
 # Multiprocessing
 from multiprocessing import Pool
@@ -51,26 +46,54 @@ def get_game_ids(day):
 
     return game_ids 
 
+
+def get_play_info(play_elem):
+    play_text = play_elem.text
+    if re.search(r"\bShot\b|\bLayup\b|\bDunk\b", play_text):
+        play_type = 'good'
+    elif re.search(r"\bFoul\b|\bTurnover\b|\bSteal\b|\bRebound\b", play_text):
+        play_type = 'ok'
+    elif re.search(r"\bFree Throw\b|\bJump Ball\b", play_text):
+        play_type = 'na'
+    else:
+        play_type = 'na'
+    href = play_elem.get_attribute('href')
+    info = {
+        'text': play_text,
+        'play_type': play_type,
+        'elem': play_elem,
+        'url': href
+    }
+    return info
+
+
 # get links to plays
-def get_play_links(game_id):
+def get_play_links(game_id, sample_amount=40):
+    # TODO: testing
+    #sample_amount = 4
+
     print(f'get play links for game_id {game_id}')
 
     game_url = f'https://www.nba.com/game/{game_id}/play-by-play?period=All'
-
     driver = get_selenium_driver(headless=True)
     driver.get(game_url)
+
     elems = driver.find_elements(By.CSS_SELECTOR,"article[class^='GamePlayByPlay'] a")
-    play_links = [elem.get_attribute('href') for elem in elems]
+    print(f'got {len(elems)} total elements')
 
-    print(f'got {len(play_links)} play links')
+    # get info
+    elems_info = [get_play_info(play_elem) for play_elem in elems]
+    elems_info = [elems_info[i] | {'index':i} for i in range(len(elems_info))] 
 
-    # Sample 40 links
-    sample_amount = 40
+    # (1) filter, (2) sample by quota, (3) stitch together and sort, (4) grab links
+    good_quota = int(sample_amount * 0.8)
+    ok_quota = int(sample_amount * 0.2)
+    good_elems = list(filter(lambda x: x['play_type']=='good', elems_info))
+    ok_elems = list(filter(lambda x: x['play_type']=='ok', elems_info))
+    sample = random.sample(good_elems, min(good_quota, len(good_elems))) + random.sample(ok_elems, min(ok_quota, len(ok_elems)))
+    sample = sorted(sample, key=lambda x: x['index'])
+    sampled_play_links = [elem['url'] for elem in sample]
 
-    # TODO: testing
-    sample_amount = 4
-
-    sampled_play_links = random.sample(play_links, sample_amount)
     print(f'sampled play links: {sampled_play_links}')
 
     return sampled_play_links
@@ -109,7 +132,7 @@ def process_play(play_link, download_dir):
     # get the mp4 clip link
     clip_link = get_clip_link(play_link)
     # download the mp4 and return the filename
-    if is_url(clip_link):
+    if is_url(clip_link) and 'missing' not in clip_link:
         filename = download_clip(clip_link, download_dir)
         return filename
     else:
@@ -124,6 +147,8 @@ def stitch_clips(concat_file='./temp/concat.txt', outputfile='./output.mp4'):
 
 def process_game(game_id, clip_links = None):
     print(f'processing game {game_id}')
+    start_time = datetime.datetime.now()
+    print(f'start time: {start_time}')
 
     play_links = get_play_links(game_id)
     temp_dir = f'temp_{game_id}' 
@@ -146,13 +171,19 @@ def process_game(game_id, clip_links = None):
     stitch_clips(concat_file=concat_filename,outputfile=f'{game_id}.mp4')
     shutil.rmtree(temp_dir)
 
+    print(f'done processing game {game_id}')
+    end_time = datetime.datetime.now()
+    print(f'end time: {end_time}')
+    print(f'total time: {(end_time-start_time).total_seconds()} seconds')
+    print()
+
 
 def process_day(day):
     print(f'processing day {day}')
     game_ids = get_game_ids(day)
 
     # TODO: testing
-    game_ids = [game_ids[-1]] 
+    #game_ids = [game_ids[-1]] 
 
     for game_id in game_ids:
         process_game(game_id)
@@ -165,7 +196,7 @@ def main():
 
     #clip_links = ['https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/478/3dad8de7-c5b5-ffec-293c-82fd844bc571_1280x720.mp4', 'https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/114/54eeb1fc-93b2-8a3c-6a3b-3c19574b2399_1280x720.mp4', 'https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/30/25b43b12-3c2a-fc0b-edf2-310b458c5c4d_1280x720.mp4']
 
-    day = '2023-10-27'
+    day = '2023-10-28'
     process_day(day)
 
 
