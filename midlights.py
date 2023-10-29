@@ -1,3 +1,9 @@
+import datetime
+import random
+import re
+import sys
+import argparse
+
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -8,9 +14,6 @@ import shutil
 import os
 import wget
 import subprocess
-import datetime
-import random
-import re
 
 # Multiprocessing
 from multiprocessing import Pool
@@ -27,9 +30,6 @@ def is_url(link):
 def get_game_ids(day):
 
     print(f'get game_ids for day {day}')
-
-    # day should be in right format
-    assert(re.search('\d\d\d\d-\d\d-\d\d', day) is not None)
 
     url = f'https://www.nba.com/games?date={day}'
     soup = get_soup(url)
@@ -190,14 +190,15 @@ def process_day(day):
 
 
 def main():
-    #url = 'https://www.nba.com/stats/events?CFID=&CFPARAMS=&GameEventID=21&GameID=0022300063&Season=2023-24&flag=1&title=Murray%2018%27%20Pullup%20Jump%20Shot%20(2%20PTS)'
-    #clip_link = get_clip_link(url) 
-    #print(f'clip link: {clip_link}')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--date", required=True)
+    args = parser.parse_args()
+    date = args.date 
 
-    #clip_links = ['https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/478/3dad8de7-c5b5-ffec-293c-82fd844bc571_1280x720.mp4', 'https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/114/54eeb1fc-93b2-8a3c-6a3b-3c19574b2399_1280x720.mp4', 'https://videos.nba.com/nba/pbp/media/2023/10/25/0022300072/30/25b43b12-3c2a-fc0b-edf2-310b458c5c4d_1280x720.mp4']
+    # date should be in right format
+    assert(re.search('\d\d\d\d-\d\d-\d\d', date) is not None)
 
-    day = '2023-10-28'
-    process_day(day)
+    process_day(date)
 
 
 if __name__=='__main__':
