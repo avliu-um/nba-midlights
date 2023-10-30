@@ -1,5 +1,9 @@
 # nba-midlights
 
+This project generates video reels for basketball games that are more representative of the game than the usual "highlight" videos that you find online.
+This repo contains code for scraping NBA.com for game clips and combining them into these video reels.
+The code utilizes several web scraping tactics, parallelization, and video stitching tools.
+
 ## Motivations
 
 The inspiration from this project comes from my experience and current problems with media consumption options as a serious NBA fan. Like most people, I cannot watch entire games often because I'm busy with work, school, etc. Instead, I rely on clipped versions of the game, called highlight videos. 
@@ -13,7 +17,6 @@ Enter, NBA Midlights, a web-scraping and video-stiching project that creates mor
 ## Implementation
 
 This repo contains the code for NBA Midlights. 
-The code combines several web scraping tactics, parallelization, and video stitching tools.
 
 See [here](https://drive.google.com/drive/folders/1T6EhLKyoYiK7uTHnVipAZrLA72qDXanN?usp=sharing) for example Midlight videos.
 
@@ -24,6 +27,8 @@ The process for generating these videos is as follows (all info is scraped from 
 * To process a game, collect all plays that occured during that game (e.g. "Player X missed layup"), sample a subset of the plays, process the sampled plays, then stitch them together into one video.
 * To process the play, we load the clip representing the play, grab the mp4 for the clip, and then download the clip.
 
+For many web scraping tasks, I borrow helper functions from my own PyPI package, [scraper-util-avliu](https://pypi.org/project/scraper-util-avliu/).
+
 Currently, sampling plays from a game is implemented with the following heuristic: 80% of the plays are shots (jump shot, layup, dunk, etc.) regardless of make or miss; 20% of the plays are other categories that are still relevant to the game (Foul, turnover, steal, rebound). 
 This heuristic can be edited to suit viewer's needs, and in the future will be easily customizable for the end-user.
 
@@ -33,6 +38,8 @@ Thus, we use Python's multiprocessing package to parallelize play processing.
 Overall, parallelization has brought game processing tiem from over 30 minutes per game to 3-5 minutes per game (running locally).
 
 ## Code
+To run the code, enter `python midlights.py --date='YYYY-MM-DD'`, with your specified date.
+
 Included files:
 * midlights.py- uses BeautifulSoup and Selenium to sample clips of play.
 * requirements.txt- Python packages.
@@ -43,5 +50,3 @@ Requirements:
 * ffmpeg
 * chromedriver
 * Google Chrome
-
-To run the code, enter `python midlights.py --date='YYYY-MM-DD'`, with your specified date.
