@@ -4,7 +4,7 @@ This project generates video reels for basketball games that are more representa
 This repo contains code for scraping NBA.com for game clips and combining them into these video reels.
 The code utilizes several web scraping tactics, parallelization, and video stitching tools.
 
-## Motivations
+## Motivation
 
 The inspiration from this project comes from my experience and current problems with media consumption options as a serious NBA fan. Like most people, I cannot watch entire games often because I'm busy with work, school, etc. Instead, I rely on clipped versions of the game, called highlight videos. 
 
