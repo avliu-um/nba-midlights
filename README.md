@@ -1,4 +1,4 @@
-# nba-midlights
+# NBA Midlights
 
 This project generates video reels for basketball games that are more representative of the game than the usual "highlight" videos that you find online.
 This repo contains code for scraping NBA.com for game clips and combining them into these video reels.
