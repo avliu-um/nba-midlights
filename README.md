@@ -12,7 +12,7 @@ However, the issue with highlight videos is that they only show made baskets. Ti
 
 First, highlight videos systematically biases towards volume scoring, which led me to associate those that routinely showed up in highlights with great players. For instance, Jordan Poole, a highlight-driven player who in reality routinely demonstrates poor shot selection, is seen in a positively-biased light. Players who often make mistakes that aren't captured in highlights, such as turnovers, fouls, and bad shot selection, do not get their fair shake. Second, highlight videos limit us from seeing parts of the game that are equally as beautiful as buckets, such as great defensive schemes and individual defensive performances.
 
-Enter, NBA Midlights, a web-scraping and video-stiching project that creates more realistic, natural, and consistent video reals of NBA games.
+Enter, NBA Midlights, a web-scraping and video-stiching project that creates more realistic, natural, and consistent video reels of NBA games.
 
 ## Implementation
 
