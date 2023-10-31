@@ -94,8 +94,8 @@ def sample_plays(all_plays, sample_amount=50, good_ratio=0.7, ok_ratio=0.3):
     # filter by url exists 
     all_plays = list(filter(lambda x: len(x['url'])>0, all_plays))
 
-    good_elems = list(filter(lambda x: x['play_type']=='good', all_plays))
-    ok_elems = list(filter(lambda x: x['play_type']=='ok', all_plays))
+    good_elems = list(filter(lambda x: x['play_type']=='good' and x['period']<=4, all_plays))
+    ok_elems = list(filter(lambda x: x['play_type']=='ok' and x['period']<=4, all_plays))
 
     # get clutch plays
     clutch_plays = []
